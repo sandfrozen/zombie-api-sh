@@ -12,6 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
+  "basePath": "/api/v1",
   "host": "localhost:5000",
   "schemes": [
     "http",
