@@ -11,15 +11,17 @@ export const getItemsTotalValue = (itemIds) => {
       sum.eur += price * rates.eur;
     }
   });
-  sum.pln = sum.pln.toFixed(2);
-  sum.usd = sum.usd.toFixed(2);
-  sum.eur = sum.eur.toFixed(2);
+
+  sum.pln = +sum.pln.toFixed(2);
+  sum.usd = +sum.usd.toFixed(2);
+  sum.eur = +sum.eur.toFixed(2);
   return sum;
 };
 
 export const getValidItemIds = (itemIds) => {
   const items = db.get('items').value() || [];
   const validIds = items.map((i) => i.id) || [];
+
   return itemIds.filter((i) => validIds.includes(+i)).map((id) => +id);
 };
 

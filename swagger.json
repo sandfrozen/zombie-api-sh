@@ -1,0 +1,312 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a Zombies server.",
+    "version": "1.0.0",
+    "title": "Swagger Zombies",
+    "contact": {
+      "email": "tbuslowski@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:5000",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "tags": [
+    {
+      "name": "zombies",
+      "description": "Everything about zombies",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/zombies": {
+      "get": {
+        "tags": [
+          "zombies"
+        ],
+        "summary": "List of zombies",
+        "description": "",
+        "operationId": "listOfZombies",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "zombies"
+        ],
+        "summary": "Add a new zombie to the db",
+        "description": "",
+        "operationId": "addZombie",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Zombie object that needs to be added to the db",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ZombiePost"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/zombies/{zombieId}": {
+      "get": {
+        "tags": [
+          "zombies"
+        ],
+        "summary": "Find zombie by ID",
+        "description": "Returns a single zombie",
+        "operationId": "getZombieById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "ID of zombie to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Zombie"
+            }
+          },
+          "404": {
+            "description": "Zombie not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "zombies"
+        ],
+        "summary": "Update an existing zombie",
+        "description": "",
+        "operationId": "updateZombie",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Zombie object that needs to be changed in the db",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ZombiePut"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Zombie not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "zombies"
+        ],
+        "summary": "Deletes a zombie",
+        "description": "",
+        "operationId": "deleteZombie",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "Zombie id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Zombie not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Rate": {
+      "type": "object",
+      "properties": {
+        "pln": {
+          "type": "number",
+          "format": "float"
+        },
+        "usd": {
+          "type": "number",
+          "format": "float"
+        },
+        "eur": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "xml": {
+        "name": "Rate"
+      }
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Item"
+      }
+    },
+    "ItemId": {
+      "type": "number",
+      "xml": {
+        "name": "ItemId"
+      }
+    },
+    "Zombie": {
+      "type": "object",
+      "required": [
+        "name",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/definitions/Item"
+          }
+        },
+        "itemsTotalValue": {
+          "type": "object",
+          "$ref": "#/definitions/Rate"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "Zombie"
+      }
+    },
+    "ZombiePost": {
+      "type": "object",
+      "required": [
+        "name",
+        "items"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/definitions/ItemId"
+          }
+        }
+      },
+      "xml": {
+        "name": "ZombiePost"
+      }
+    },
+    "ZombiePut": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/definitions/ItemId"
+          }
+        }
+      },
+      "xml": {
+        "name": "ZombiePost"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
