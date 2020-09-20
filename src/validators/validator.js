@@ -36,6 +36,17 @@ const zombiePutRules = () => {
   ];
 };
 
+const itemsPostRules = () => {
+  return [
+    param('zombieId')
+      .isLength({ min: 7 })
+      .withMessage('Id is too short')
+      .isLength({ max: 14 })
+      .withMessage('Id is too long'),
+    check('items').isArray({ max: 5 }).withMessage('Max 5 items'),
+  ];
+};
+
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
@@ -53,5 +64,6 @@ module.exports = {
   zombieIdRules,
   zombiePostRules,
   zombiePutRules,
+  itemsPostRules,
   validate,
 };

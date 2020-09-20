@@ -217,6 +217,171 @@
         }
       }
     },
+    "/items/{zombieId}": {
+      "get": {
+        "tags": [
+          "items"
+        ],
+        "summary": "List item for zombieId",
+        "description": "",
+        "operationId": "listOfZombieItems",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "ID of zombie to return his items",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Item"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "items"
+        ],
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "ID of zombie to return his items",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Items array",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ItemId"
+              }
+            }
+          }
+        ],
+        "summary": "Set new items for zombie",
+        "description": "",
+        "operationId": "createZombieItems",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Item"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "items"
+        ],
+        "summary": "Update items for zombie",
+        "description": "",
+        "operationId": "updateZombieItems",
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "ID of zombie to return his items",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Items array",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ItemId"
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Item"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/{zombieId}/{itemId}": {
+      "delete": {
+        "tags": [
+          "items"
+        ],
+        "summary": "Delete item from zombie items",
+        "description": "",
+        "operationId": "deleteItemFromZombie",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "zombieId",
+            "in": "path",
+            "description": "ID of zombie to remove his item",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "ID of item to remove",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Item"
+              }
+            }
+          }
+        }
+      }
+    },
     "/rates": {
       "get": {
         "tags": [
