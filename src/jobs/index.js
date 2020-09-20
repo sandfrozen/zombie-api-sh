@@ -36,7 +36,7 @@ const updateRates = async () => {
 const fetchInitialData = async () => {
   const itemsCount = db.get('items').value().length;
   if (!itemsCount) {
-    await updateItems(true);
+    await updateItems();
   }
   const rates = db.get('items').value();
   if (!rates) {
