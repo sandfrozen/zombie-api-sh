@@ -1,20 +1,38 @@
 const { param, check, validationResult } = require('express-validator');
 
-const zombieGetValidationRules = () => {
-  return [param('zombieId').isLength({ min: 5 })]
-};
-
-const zombiePostValidationRules = () => {
+const zombieIdRules = () => {
   return [
-    check('name').isAlpha().isLength({ min: 2 }).withMessage('Min 2 characters'),
-    check('items').isArray({ max: 5 }).withMessage('Max 2 items'),
+    param('zombieId')
+      .isLength({ min: 7 })
+      .withMessage('Id is too short')
+      .isLength({ max: 14 })
+      .withMessage('Id is too long'),
   ];
 };
 
-const zombiePutValidationRules = () => {
+const zombiePostRules = () => {
   return [
-    check('name').notEmpty().bail().isAlpha().isLength({ min: 2 }).withMessage('Min 2 characters'),
-    check('items').notEmpty().bail().isArray({ max: 5 }).withMessage('Max 2 items'),
+    check('name')
+      .isAlpha()
+      .withMessage('Only letters')
+      .isLength({ min: 2 })
+      .withMessage('Min 2 letters'),
+    check('items').isArray({ max: 5 }).withMessage('Max 5 items'),
+  ];
+};
+
+const zombiePutRules = () => {
+  return [
+    param('zombieId')
+      .isLength({ min: 7 })
+      .withMessage('Id is too short')
+      .isLength({ max: 14 })
+      .withMessage('Id is too long'),
+    check('name')
+      .isAlpha()
+      .withMessage('Only letters')
+      .isLength({ min: 2 })
+      .withMessage('Min 2 letters'),
   ];
 };
 
@@ -32,8 +50,8 @@ const validate = (req, res, next) => {
 };
 
 module.exports = {
-  zombieGetValidationRules,
-  zombiePostValidationRules,
-  zombiePutValidationRules,
+  zombieIdRules,
+  zombiePostRules,
+  zombiePutRules,
   validate,
 };

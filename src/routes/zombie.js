@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import shortid from 'shortid';
 
-import { zombiePostValidationRules, validate } from '../validators/validator';
-
 import db from '../db';
+import { zombieIdRules, zombiePostRules, zombiePutRules, validate } from '../validators/validator';
 import { getValidItemIds } from '../helpers/itemsHelper';
 import getReadableZombie from '../helpers/zombieHelper';
 
@@ -15,12 +14,12 @@ router.get('/', (req, res) => {
   return res.json(zombies);
 });
 
-router.get('/:zombieId', (req, res) => {
+router.get('/:zombieId', zombieIdRules(), validate, (req, res) => {
   const zombie = getReadableZombie(req.params.zombieId);
   return zombie ? res.json(zombie) : res.sendStatus(404);
 });
 
-router.post('/', zombiePostValidationRules(), validate, (req, res) => {
+router.post('/', zombiePostRules(), validate, (req, res) => {
   const { name, items } = req.body;
   const zombie = {
     id: shortid.generate(),
@@ -32,7 +31,7 @@ router.post('/', zombiePostValidationRules(), validate, (req, res) => {
   return saved ? res.json(getReadableZombie(saved.id)) : res.status(500);
 });
 
-router.put('/:zombieId', (req, res) => {
+router.put('/:zombieId', zombiePutRules(), validate, (req, res) => {
   const { zombieId } = req.params;
   const zombie = collection.getById(zombieId).value();
   if (!zombie) {
@@ -47,9 +46,9 @@ router.put('/:zombieId', (req, res) => {
   return saved ? res.json(getReadableZombie(saved.id)) : res.sendStatus(500);
 });
 
-router.delete('/:zombieId', (req, res) => {
-  const result = collection.removeById(req.params.zombieId).write();
-  return result ? res.sendStatus(204) : res.sendStatus(404);
+router.delete('/:zombieId', zombieIdRules(), validate, (req, res) => {
+  const deleted = collection.removeById(req.params.zombieId).write();
+  return deleted ? res.sendStatus(204) : res.sendStatus(404);
 });
 
 export default router;
