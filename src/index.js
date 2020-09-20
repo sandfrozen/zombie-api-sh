@@ -26,6 +26,5 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', router);
 
-app.listen(process.env.PORT || 4000, () =>
-  logger.info(`zombie-api-sh app listening on port ${process.env.PORT}`)
-);
+const port = process.env.PORT || 4000;
+app.listen(port, () => logger.info(`zombie-api-sh app listening on port ${port}`));

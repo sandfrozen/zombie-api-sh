@@ -1,32 +1,15 @@
 {
   "zombies": [
     {
-      "id": "35879440-faaf-11ea-a53d-47a70ecccfe0",
-      "createdAt": 1600544101253,
-      "name": "Aasd",
+      "id": "8iNrJ0E7J",
+      "createdAt": 1600608533400,
+      "name": "Kadkas",
       "items": [
-        9,
-        10
-      ],
-      "itemsTotalValue": {
-        "pln": "230.00",
-        "usd": "876.46",
-        "eur": "1035.02"
-      }
-    },
-    {
-      "id": "4aab1bd0-faaf-11ea-aff6-893cda53b5b4",
-      "createdAt": 1600544136718,
-      "name": "Aasdasdads",
-      "items": [
-        9,
-        10
-      ],
-      "itemsTotalValue": {
-        "pln": "230.00",
-        "usd": "876.46",
-        "eur": "1035.02"
-      }
+        2,
+        4,
+        5,
+        6
+      ]
     }
   ],
   "items": [
@@ -107,7 +90,7 @@
     }
   ],
   "rates": {
-    "eur": 4.5001,
-    "usd": 3.8107
+    "usd": 3.81,
+    "eur": 4.5
   }
 }
