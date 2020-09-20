@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 router.use('/zombies', routes.zombie);
 router.use('/zombie-items', routes.item);
+router.use('/rates', routes.rates);
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/v1', router);

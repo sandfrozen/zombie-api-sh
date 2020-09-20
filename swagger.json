@@ -26,6 +26,22 @@
         "description": "Find out more",
         "url": "http://swagger.io"
       }
+    },
+    {
+      "name": "items",
+      "description": "Everything about available items",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "rates",
+      "description": "Everything about actual rates",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
     }
   ],
   "paths": {
@@ -164,6 +180,42 @@
         "responses": {
           "404": {
             "description": "Zombie not found"
+          }
+        }
+      }
+    },
+    "/items": {
+      "get": {
+        "tags": [
+          "items"
+        ],
+        "summary": "List of available items",
+        "description": "",
+        "operationId": "listOfItems",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/rates": {
+      "get": {
+        "tags": [
+          "rates"
+        ],
+        "summary": "List of actual rates",
+        "description": "",
+        "operationId": "listOfRates",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
           }
         }
       }
