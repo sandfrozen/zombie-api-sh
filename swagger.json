@@ -6,10 +6,6 @@
     "title": "Swagger Zombies",
     "contact": {
       "email": "tbuslowski@gmail.com"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "basePath": "/api/v1",
@@ -21,27 +17,15 @@
   "tags": [
     {
       "name": "zombies",
-      "description": "Everything about zombies",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "description": "Endpoints for CRUD operations on zombies"
     },
     {
       "name": "items",
-      "description": "Everything about available items",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "description": "Endpoints for CRUD operations on zombie's items"
     },
     {
       "name": "rates",
-      "description": "Everything about actual rates",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "description": "Endpoint for actual rates"
     }
   ],
   "paths": {
@@ -222,7 +206,7 @@
         "tags": [
           "items"
         ],
-        "summary": "List item for zombieId",
+        "summary": "Item list for zombie",
         "description": "",
         "operationId": "listOfZombieItems",
         "produces": [
@@ -232,7 +216,7 @@
           {
             "name": "zombieId",
             "in": "path",
-            "description": "ID of zombie to return his items",
+            "description": "ID of zombie",
             "required": true,
             "type": "string"
           }
@@ -263,7 +247,7 @@
           {
             "name": "zombieId",
             "in": "path",
-            "description": "ID of zombie to return his items",
+            "description": "ID of zombie",
             "required": true,
             "type": "string"
           },
@@ -295,6 +279,9 @@
                 "$ref": "#/definitions/Item"
               }
             }
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -309,7 +296,7 @@
           {
             "name": "zombieId",
             "in": "path",
-            "description": "ID of zombie to return his items",
+            "description": "ID of zombie",
             "required": true,
             "type": "string"
           },
@@ -338,6 +325,9 @@
                 "$ref": "#/definitions/Item"
               }
             }
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -357,7 +347,7 @@
           {
             "name": "zombieId",
             "in": "path",
-            "description": "ID of zombie to remove his item",
+            "description": "ID of zombie",
             "required": true,
             "type": "string"
           },
@@ -378,6 +368,9 @@
                 "$ref": "#/definitions/Item"
               }
             }
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -387,7 +380,7 @@
         "tags": [
           "rates"
         ],
-        "summary": "List of actual rates",
+        "summary": "Rates object with two keys: usd and eur",
         "description": "",
         "operationId": "listOfRates",
         "produces": [
@@ -395,7 +388,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "usd": {
+                  "type": "number",
+                  "format": "float"
+                },
+                "eur": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
           }
         }
       }
