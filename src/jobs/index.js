@@ -4,12 +4,16 @@ import axios from 'axios';
 import log from '../logger';
 import db from '../db';
 
+let itemsUpdateJob;
+let ratesUpdateJob;
+
 const updateItems = async () => {
   try {
     const {
       data: { items },
     } = await axios.get('https://zombie-items-api.herokuapp.com/api/items');
     db.set('items', items).write();
+    log.info(`ITEMS FETCHED. Items sum: ${items.length}`);
   } catch (e) {
     log.error('Error while item update: ', e);
   }
@@ -20,29 +24,53 @@ const updateRates = async () => {
     const { data } = await axios.get('http://api.nbp.pl/api/exchangerates/tables/C');
     const { rates } = data[0];
     const prevRates = db.get('rates').value();
-    const eur = rates.find((i) => i.code === 'EUR')?.ask || prevRates?.eur || 1;
     const usd = rates.find((i) => i.code === 'USD')?.ask || prevRates?.usd || 1;
-    db.set('rates', { eur, usd }).write();
+    const eur = rates.find((i) => i.code === 'EUR')?.ask || prevRates?.eur || 1;
+    db.set('rates', { usd, eur }).write();
+    log.info(`RATES FETCHED. USD: ${usd}  EUR: ${eur}`);
   } catch (e) {
     log.error('Error while rates update: ', e);
   }
 };
 
-const updateZombies = async () => {
-  log.warn('updateZombies not implemented..');
+const fetchInitialData = async () => {
+  const itemsCount = db.get('items').value().length;
+  if (!itemsCount) {
+    await updateItems(true);
+  }
+  const rates = db.get('items').value();
+  if (!rates) {
+    await updateRates();
+  }
 };
 
-const performUpdate = async () => {
-  await updateItems();
-  await updateRates();
-  await updateZombies();
-};
+export default async function init() {
+  await fetchInitialData();
 
-export default function init() {
-  performUpdate();
+  itemsUpdateJob = schedule.scheduleJob(
+    {
+      tz: 'UTC',
+      hour: 0,
+      minute: 1,
+    },
+    async () => {
+      await updateItems();
+      log.info(`Next Items Update: ${itemsUpdateJob.nextInvocation()}`);
+    }
+  );
 
-  schedule.scheduleJob('1 * * * * *', (fireDate) => {
-    performUpdate();
-    log.info(`This job was supposed to run at ${fireDate}, but actually ran at ${new Date()}`);
-  });
+  ratesUpdateJob = schedule.scheduleJob(
+    {
+      hour: 8,
+      minute: 16,
+      dayOfWeek: new schedule.Range(1, 5),
+    },
+    async () => {
+      await updateRates();
+      log.info(`Next Rates Update: ${ratesUpdateJob.nextInvocation()}`);
+    }
+  );
+
+  log.info(`Next Items Update: ${itemsUpdateJob.nextInvocation()}`);
+  log.info(`Next Rates Update: ${ratesUpdateJob.nextInvocation()}`);
 }
