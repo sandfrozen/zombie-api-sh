@@ -61,6 +61,7 @@ export default async function init() {
 
   ratesUpdateJob = schedule.scheduleJob(
     {
+      tz: 'Poland',
       hour: 8,
       minute: 16,
       dayOfWeek: new schedule.Range(1, 5),
