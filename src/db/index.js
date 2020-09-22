@@ -12,10 +12,6 @@ db._.mixin(lodashId);
 db.defaults({
   zombies: [],
   items: [],
-  rates: {
-    usd: 3.81,
-    eur: 4.5,
-  },
 }).write();
 
 export default db;
